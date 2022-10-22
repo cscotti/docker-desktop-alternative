@@ -1,0 +1,36 @@
+# https://codefresh.io/blog/not-ignore-dockerignore-2/
+
+# pattern:
+# { term }
+# term:
+# '*' matches any sequence of non-Separator characters
+# '?' matches any single non-Separator character
+# '[' [ '^' ] { character-range } ']'
+# character class (must be non-empty)
+# c matches character c (c != '*', '?', '\\', '[')
+# '\\' c matches character c
+# character-range:
+# c matches character c (c != '\\', '-', ']')
+# '\\' c matches character c
+# lo '-' hi matches character c for lo <= c <= hi
+# additions:
+# '**' matches any number of directories (including zero)
+# '!' lines starting with ! (exclamation mark) can be used to make exceptions to exclusions
+# '#' lines starting with this character are ignored: use it for comments
+
+# ignore .git and .cache folders
+.git
+.cache
+.vscode
+.devcontainer
+
+# ignore all  files in all folders, including build root
+**/__pycache__
+**/tmp
+**/archive
+
+# ignore all markdown files (md) beside all README*.md other than README-secret.md
+*.md
+!README*.md
+!Readme*.md
+README-secret.md

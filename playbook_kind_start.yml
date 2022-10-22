@@ -1,0 +1,144 @@
+---
+# ansible-playbook -i hosts ./playbook_kind_start.yml
+# https://www.bogotobogo.com/DevOps/Ansible/Ansible-Deploying-a-Go-App-to-Minikube.php
+- name: go minikube
+  hosts: localhost
+  gather_facts: False
+
+  vars:
+
+    ansible_python_interpreter: '{{ ansible_playbook_python }}'
+    kind_version: v0.15.0
+    #image_name: test-python
+    #image_tag: latest
+    local_workdir: $HOME/minikube
+    minikube_system_workdir: /workdir
+    datadir: /data
+    srcdir: /app/src
+    #dockerfile_context_folder: $HOME/minikube
+    #dockerfile_name: Dockerfile
+    #replicas: 4
+    minikube_profile: mkind
+    minikube_driver: hyperkit # https://minikube.sigs.k8s.io/docs/drivers/ 
+    # kvm install
+    # sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst virt-manager
+    minikube_runtime: docker
+    minikube_cpu: 2
+    minikube_memory: 4096
+
+  pre_tasks:
+
+    - name: Get user homedir
+      shell: echo "{{local_workdir}}"
+      register: homeworkdir
+
+    - name: check the status of minikube.
+      shell: |
+        eval $(minikube -p {{minikube_profile}} docker-env)
+        minikube config unset kubernetes-version
+        test=$(minikube -p {{minikube_profile}} status 2> /dev/null  |grep -c 'host: Running')
+        if [ "$test" -eq "1" ];then 
+          echo 'Running'
+        else 
+          echo 'Stop'
+        fi
+      # [[ $(minikube status 2> /dev/null  |grep -c 'host: Running') == 1 ]] && true || false
+      register: minikube_status
+      changed_when: false
+      ignore_errors: true
+
+    - name: minikube_status output
+      debug:
+        var: minikube_status.stdout
+
+    - name: start minikube if it's not running.
+      command: "minikube start -p {{minikube_profile}} --no-kubernetes \
+        --mount --mount-string='{{ homeworkdir.stdout }}:{{ minikube_system_workdir }}' --vm-driver={{minikube_driver}} \
+        --cpus {{minikube_cpu}} --memory {{minikube_memory}}  --container-runtime=docker  = true"
+      when: "not minikube_status.stdout or 'Running' not in minikube_status.stdout"
+
+
+  tasks:
+    - name: test if kind exist.
+      shell: |
+        [[ $(command -v kind) ]] && echo true || echo false
+      register: install_kind
+      changed_when: false
+      ignore_errors: true
+
+    # - name: install kind and kubectl in minikube
+    #   shell: |
+    #     eval $(minikube -p minikube docker-env)
+    #     minikube ssh "curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.15.0/kind-linux-amd64"
+    #     minikube ssh "chmod +x ./kind"
+    #     minikube ssh "sudo mv ./kind /usr/bin/kind"
+    #     minikube ssh "curl -LO \"https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl\""
+    #     minikube ssh "sudo install -o root -g root -m 0755 kubectl /usr/bin/kubectl"
+    #     minikube ssh "echo "alias k='kubectl' " >> .profile"
+    #   register: kind_bin_install
+    #   when: not install_kind.stdout
+
+    - name: test if kind pod exist.
+      shell: |
+        eval $(minikube -p {{minikube_profile}} docker-env)
+        [[ $(docker ps |grep -c kind 2>&1 ) -ge 1 ]] && echo "True" || echo "False"
+      register: kind_pods_exist
+      when: install_kind.stdout
+
+    - name: kind_pods_exist output
+      debug:
+        var: kind_pods_exist.stdout
+
+    - name: create kind cluster in minikube
+      shell: |
+        eval $(minikube -p {{minikube_profile}} docker-env)
+        sh ./kind/create_kind_cluster.sh {{minikube_profile}}
+      register: kind_cluster_script
+      when: kind_pods_exist.stdout == "False"
+
+    - name: launch k8s tunnel script
+      shell: |
+        eval $(minikube -p {{minikube_profile}} docker-env)
+        sh ./kind/create_kind_proxy.sh {{minikube_profile}}
+      register: proxy_script
+      when: kind_pods_exist.stdout == "False"
+
+    - name: install k8s sample service script
+      shell: |
+        eval $(minikube -p {{minikube_profile}} docker-env)
+        sh ./kind/create_k8s_sample.sh
+      register: sample
+      when: kind_pods_exist.stdout == "False"
+
+    - name: create kind cluster in minikube
+      shell: |
+        minikube profile list
+      register: minikube_profile_list
+
+    - name: print minikube profile  
+      debug:
+        msg: "{{minikube_profile_list.stdout.split('\n') }}"
+
+
+    - name: Print cmd
+      vars:
+        msg: |
+          --- minikube cmd ------
+          minikube status -p {{minikube_profile}}
+          minikube stop -p {{minikube_profile}}
+          --- docker access --------
+          eval $(minikube -p {{minikube_profile}} docker-env)
+          --- Restart K8S Tunnel access if needed ----
+          ./create_kind_proxy.sh &
+          --- K8S cmd --------------
+          kubectl cluster-info --context kind-kind
+          kubectl config use-context kind-kind
+          kubectl get po
+          kubectl get nodes
+          ---Http access Sample-----
+          # kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.10
+          # kubectl expose deployment hello-minikube --type=NodePort --port=30017
+          curl $(minikube ip -p {{minikube_profile}} ):8080
+          --------------------------
+      debug:
+        msg: "{{ msg.split('\n') }}"

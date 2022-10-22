@@ -1,0 +1,92 @@
+---
+# ansible-playbook -i hosts ./playbook_docker_rebuild.yml
+# https://www.bogotobogo.com/DevOps/Ansible/Ansible-Deploying-a-Go-App-to-Minikube.php
+- name: go minikube
+  hosts: localhost
+  gather_facts: False
+
+  vars:
+
+    ansible_python_interpreter: '{{ ansible_playbook_python }}'
+    image_name: python-hello-world
+    image_tag: latest
+    local_workdir: $HOME/minikube
+    minikube_system_workdir: /workdir
+    datadir: /data
+    srcdir: /app/src
+    #dockerfile_context_folder: $HOME/minikube
+    dockerfile_name: Dockerfile.ubuntu
+    #replicas: 4
+    minikube_profile: docker-only
+    minikube_driver: docker # https://minikube.sigs.k8s.io/docs/drivers/
+    minikube_runtime: docker
+    minikube_cpu: 2
+    minikube_memory: 4096
+
+  pre_tasks:
+
+    - name: Get user homedir
+      shell: echo "{{local_workdir}}"
+      register: homeworkdir
+
+    - name: check the status of minikube.
+      shell: |
+        minikube config unset kubernetes-version
+        test=$(minikube -p {{minikube_profile}} status 2> /dev/null  |grep -c 'host: Running')
+        if [ "$test" -eq "1" ];then 
+          echo 'Running'
+        else 
+          echo 'Stop'
+        fi
+      # [[ $(minikube status 2> /dev/null  |grep -c 'host: Running') == 1 ]] && true || false
+      register: minikube_status
+      changed_when: false
+      ignore_errors: true
+
+    - name: minikube_status output
+      debug:
+        var: minikube_status.stdout
+
+
+    - name: start minikube if it's not running.
+      command: "minikube start -p {{minikube_profile}} --no-kubernetes \
+        --mount --mount-string='{{ homeworkdir.stdout }}:{{ minikube_system_workdir }}' --vm-driver={{minikube_driver}} \
+        --cpus {{minikube_cpu}} --memory {{minikube_memory}}  --container-runtime={{minikube_runtime}}  = true"
+      when: "not minikube_status.stdout or 'Running' not in minikube_status.stdout"
+
+  tasks:
+
+    - name: rebuild image. 
+      # https://docs.docker.com/network/host/
+      shell: | 
+        eval $(minikube -p {{minikube_profile}} docker-env)
+        docker build -t {{ image_name }}:{{ image_tag }} -f {{dockerfile_name}} . --network host
+      register: docker_build
+
+    - debug: var=docker_build.stdout_lines
+
+    - name: run docker image
+      shell: |
+        eval $(minikube -p {{minikube_profile}} docker-env)
+        docker stop {{ image_name }}
+        docker rm {{ image_name }}
+        docker run --name {{ image_name }} -v {{minikube_system_workdir}}{{srcdir}}:{{srcdir}} -v {{minikube_system_workdir}}{{datadir}}:{{datadir}}  \
+        -d {{ image_name }}:{{ image_tag }} {{ image_name }}
+        docker ps |grep {{ image_name }} |awk '{print $2}'
+      register: docker_run_container
+      changed_when: false
+
+    - debug: var=docker_run_container.stdout_lines
+
+    - name: Print
+      vars:
+        msg: |
+          ---container interative access--------
+          eval $(minikube -p {{minikube_profile}} docker-env)
+          docker exec -it {{image_name}} /bin/bash
+          docker exec -it {{image_name}} /bin/sh
+          --------------------------------------
+      debug:
+        msg: "{{ msg.split('\n') }}"
+
+    

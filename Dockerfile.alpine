@@ -1,0 +1,30 @@
+FROM python:3.10.8-alpine3.16
+
+ENV WORKDIR "/app/src"
+ENV DATADIR "/data"
+# Enable new "BUILDKIT" mode for Docker CLI
+ENV DOCKER_BUILDKIT=1
+
+#------------
+# Alpine
+#------------
+RUN apk update \
+ && apk add nano curl wget \
+    # for pyjq  (https://github.com/doloopwhile/pyjq )
+    jq libtool make automake autoconf bison flex g++ \
+ && rm -rf /var/cache/apk/*
+#------------
+
+COPY /app/src/requirements.txt requirements.txt 
+RUN pip3 install --upgrade pip && \
+    pip3 install -r requirements.txt
+
+#ADD ./data $DATADIR
+VOLUME ./data /data
+
+#ADD ./workspace /app/src/
+VOLUME ./workspace /app/src/
+
+WORKDIR $WORKDIR
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+#ENTRYPOINT ["python3", "/app/src/hello-world.py"]

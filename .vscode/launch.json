@@ -1,0 +1,21 @@
+{
+    // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
+    // Pointez pour afficher la description des attributs existants.
+    // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python : fichier actif",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${fileDirname}",
+            "program": "${file}",
+            "args":["arg1","arg2"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}
+
+// python3 -m pip install --user greenlet
+// python3 -m pip install --user gevent

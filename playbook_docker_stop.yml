@@ -1,0 +1,36 @@
+---
+# ansible-playbook -i hosts ./playbook_docker_stop.yml
+# https://www.bogotobogo.com/DevOps/Ansible/Ansible-Deploying-a-Go-App-to-Minikube.php
+- name: go minikube
+  hosts: localhost
+  gather_facts: False
+
+  vars:
+
+    ansible_python_interpreter: '{{ ansible_playbook_python }}'
+    image_name: test-python
+    image_tag: latest
+    #workdir: $HOME/minikube
+    #replicas: 4
+    minikube_profile: docker-only
+
+  tasks:
+
+    - name: check the status of minikube.
+      shell: |
+        if [[ $(minikube -p {{minikube_profile}} status 2> /dev/null  |grep -c "host: Running") == 1 ]]
+        then 
+          echo 'Running'
+        else 
+          echo 'Stop'
+        fi
+      # [[ $(minikube status 2> /dev/null  |grep -c 'host: Running') == 1 ]] && false || true
+      register: minikube_status
+      changed_when: false
+      ignore_errors: true
+
+    - name: stop minikube if it's running.
+      command: "minikube -p {{minikube_profile}} stop = true"
+      when: "not minikube_status.stdout or 'Running' in minikube_status.stdout"
+      changed_when: false
+
