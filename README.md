@@ -4,7 +4,7 @@ This post is for developers who want to find an alternative to docker-desktop du
 
 # Requirements on Macos
 ```
-brew install minikube docker kyperkit ansible 
+brew install minikube docker docker-compose kyperkit ansible 
 
 #for Kubernetes
 brew install kubernetes-cli kube-ps1 kubectx
