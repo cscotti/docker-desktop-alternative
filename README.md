@@ -9,9 +9,18 @@ brew install docker kyperkit ansible kubectl
 
 # minikube (docker only - less cpu and memory consuming)
 Without docker-desktop, is it hard to use docker. You can work with minikube's docker environnement in order to run and build image.
+Here an exemple which :
+- test if minikube is up & start itr if needed with two mount point (`/data` & `/src/app`)
+- Build a python image if missing
+- Run a python container
+
+Note that you can change the file `./app/src/localy/hello-world.py` and it will be refresh in the container due to the mount point (`/data` & `/src/app`)
+
 ```
 #start
 ansible-playbook -i hosts ./playbook_docker_start.yml
+docker exec -it python-hello-world /bin/sh
+python3 hello-world.py
 
 #stop
 ansible-playbook -i hosts ./playbook_docker_stop.yml
