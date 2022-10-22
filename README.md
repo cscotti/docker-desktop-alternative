@@ -2,7 +2,7 @@
 This post is for developper who want to find an alternative to docker-desktop due to its license cost
 
 
-# Requirements on macos
+# Requirements on Macos
 ```
 brew install docker kyperkit ansible kubectl
 ```
