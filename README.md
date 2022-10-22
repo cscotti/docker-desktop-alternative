@@ -7,7 +7,7 @@ This post is for developper who want to find an alternative to docker-desktop du
 brew install docker kyperkit ansible kubectl
 ```
 
-# minikube (docker only - less cpu and memory consuming)
+# minikube (docker only)
 Without docker-desktop, is it hard to use docker. You can work with minikube's docker environnement in order to run and build image.
 Here an exemple which :
 - Test if minikube is up & run it if needed with two mount point (`/data` & `/src/app`)
