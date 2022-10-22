@@ -1,5 +1,5 @@
 # Purpose
-This post is for developper who want to find an alternative to docker-desktop due to its license cost
+This post is for developers who want to find an alternative to docker-desktop due to its license cost
 
 
 # Requirements on Macos
@@ -8,8 +8,8 @@ brew install docker kyperkit ansible kubectl
 ```
 
 # minikube (docker only)
-Without docker-desktop, is it hard to use docker. You can work with minikube's docker environnement in order to run and build image.
-Here an exemple which :
+Without docker-desktop, is it hard to use docker. You can work with minikube's docker environment to run and build image.
+Here an example which :
 - Test if minikube is up & run it if needed with two mount point (`/data` & `/src/app`)
 - Build a python image if missing based on `Dockerfile.alpine`
 - Run a python container
@@ -40,9 +40,9 @@ ansible-playbook -i hosts ./playbook_minikube_stop.yml
 
 
 # minikube (docker + kind (kubernetes in docker))
-Without docker-desktop, is it hard to install kind. I find an alternative which is base on minikube's docker environnement.
+Without docker-desktop, is it hard to install kind. I find an alternative which is based on minikube's docker environment.
 minikube is started on hyperkit with its k8s disabled. After we start kind docker image on it (in order to have one or more k8s nodes).
-The <kind-mkind> cluster can be reach with kubectl (with an ssh tunnel)
+The <kind-mkind> cluster can be reach with kubectl (with a ssh tunnel)
 ```
 #start
 ansible-playbook -i hosts ./playbook_kind_start.yml
