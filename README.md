@@ -39,7 +39,7 @@ ansible-playbook -i hosts ./playbook_minikube_stop.yml
 ```
 
 
-# install kind (kubernetes in docker) on minikube's docker
+# minikube (docker + kind (kubernetes in docker))
 Without docker-desktop, is it hard to install kind. I find an alternative which is base on minikube's docker environnement.
 minikube is started on hyperkit with its k8s disabled. After we start kind docker image on it (in order to have one or more k8s nodes).
 The <kind-mkind> cluster can be reach with kubectl (with an ssh tunnel)
