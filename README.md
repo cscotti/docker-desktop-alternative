@@ -1,6 +1,24 @@
 # Purpose - Goodbye Docker Desktop, Hello Minikube!
 This post is for devops developers who want to find an alternative to docker-desktop due to its license cost
 
+# table of content
+
+<!-- toc -->
+
+  * [Requirements on Macos](#requirements-on-macos)
+  * [Install project](#install-project)
+- [Deploy Minikube instance with Ansible](#deploy-minikube-instance-with-ansible)
+  * [minikube (docker only)](#minikube-docker-only)
+  * [minikube (docker + kubernetes)](#minikube-docker--kubernetes)
+  * [minikube (docker + kind (kubernetes in docker))](#minikube-docker--kind-kubernetes-in-docker)
+- [Start vscode-dev-containers on Minikube](#start-vscode-dev-containers-on-minikube)
+- [Annexe](#annexe)
+  * [check existing minikube instances](#check-existing-minikube-instances)
+  * [remove minikube profile instance](#remove-minikube-profile-instance)
+  * [for ansible debug](#for-ansible-debug)
+
+<!-- tocstop -->
+
 ## Requirements on Macos
 ```
 brew install minikube docker docker-compose kyperkit ansible 
