@@ -12,7 +12,7 @@ brew install kubernetes-cli kube-ps1 kubectx
 
 # install
 ```
-git clone git@github.com:cscotti/docker-desktop-alternative.git $HOME/minikube
+git clone https://github.com/cscotti/docker-desktop-alternative.git $HOME/minikube
 cd $HOME/minikube
 ```
 
