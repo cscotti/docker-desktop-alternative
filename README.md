@@ -10,6 +10,11 @@ brew install minikube docker docker-compose kyperkit ansible
 brew install kubernetes-cli kube-ps1 kubectx
 ```
 
+# install
+```
+git clone $HOME/minikube
+```
+
 # minikube (docker only)
 Without docker-desktop, is it hard to use docker. You can work with minikube's docker environment to run and build image.
 Here an example which :
