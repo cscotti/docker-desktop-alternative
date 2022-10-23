@@ -57,6 +57,9 @@ kubectl get pod
 ansible-playbook -i hosts ./playbook_kind_stop.yml
 ```
 
+# todo - activate vscode-dev-containers on ansible minikube playbook
+https://benmatselby.dev/post/vscode-dev-containers-minikube/
+
 
 # for ansible debug
 ```
