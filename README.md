@@ -106,11 +106,11 @@ cd $HOME/minikube
 ```
 $ minikube profile list
 ```
-- Set minikube's docker env (replace <profile_name>)
+- Set minikube's docker env (replace `<profile_name>`)
 ```
 $ eval $(minikube -p <profile_name> docker-env)
 ```
-- launch VsCode from the project dir $HOME/minikube (this dir was mounted in minikube with ansible playbook)
+- launch VsCode from the project dir `$HOME/minikube` (this dir was mounted in minikube with ansible playbook)
 ```
 $ code .
 ```
