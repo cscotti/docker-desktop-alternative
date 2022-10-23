@@ -58,6 +58,7 @@ Hello World
         }
     ]
 }
+{'name': 'Tom Cruise', 'age': 56}
 
 $ exit
 
