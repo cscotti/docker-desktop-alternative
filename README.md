@@ -120,7 +120,8 @@ $ code .
 - Open browser and go to [http://localhost:9000](http://127.0.0.1:9000)
 - That's it and enjoy ;-)
 
-    
+<img width="1479" alt="image" src="https://user-images.githubusercontent.com/28137024/197422827-04d7e8a3-4963-46ae-b8ad-8bb108a10940.png">
+  
     
 Resources:
 <https://benmatselby.dev/post/vscode-dev-containers-minikube/><br>
