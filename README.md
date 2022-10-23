@@ -27,12 +27,20 @@ Here an example which :
 Note that you can change the file `./app/src/localy/hello-world.py` and it will be refresh in the container due to the mount point (`/data` & `/src/app`)
 
 ```
-#start
+# start
 ansible-playbook -i hosts ./playbook_docker_start.yml
-docker exec -it python-hello-world /bin/sh
-python3 hello-world.py
 
-#stop
+#s et minikube docker env locally
+eval $(minikube -p docker-only docker-env)
+
+# connect to the container
+docker exec -it python-hello-world /bin/sh
+
+# run the command in the container & exit
+python3 hello-world.py
+exit
+
+# stop minikube
 ansible-playbook -i hosts ./playbook_docker_stop.yml
 ```
 
