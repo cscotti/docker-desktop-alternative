@@ -16,6 +16,11 @@ git clone https://github.com/cscotti/docker-desktop-alternative.git $HOME/miniku
 cd $HOME/minikube
 ```
 
+#check existing minikube instances
+```
+minikube profile list
+```
+
 # minikube (docker only)
 Without docker-desktop, is it hard to use docker. You can work with minikube's docker environment to run and build image.
 Here an example which :
