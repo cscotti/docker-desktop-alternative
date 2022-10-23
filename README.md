@@ -68,6 +68,8 @@ ansible-playbook -i hosts ./playbook_kind_stop.yml
   
 # WIP - Activate vscode-dev-containers on ansible minikube playbook
 <https://code.visualstudio.com/docs/remote/containers#_getting-started><br>
+vscode plugin : <https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack><br>
+  
 <https://benmatselby.dev/post/vscode-dev-containers-minikube/>
 
 # Annexe
