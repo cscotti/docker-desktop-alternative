@@ -1,8 +1,6 @@
 # Purpose - Goodbye Docker Desktop, Hello Minikube!
 This post is for devops developers who want to find an alternative to docker-desktop due to its license cost
 
-# Install
-
 ## Requirements on Macos
 ```
 brew install minikube docker docker-compose kyperkit ansible 
