@@ -117,7 +117,8 @@ $ code .
 - Choose Python
 (take some minute to build image)
 - Type F5 (Tab Execute / Start debug)
-- Open browser and open localhost:9000
+- Open browser and go to [http://localhost:9000](http://127.0.0.1:9000)
+- That's it and envoy ;-)
 
     
     
