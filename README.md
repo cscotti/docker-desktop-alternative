@@ -96,18 +96,21 @@ $ kubectl get pod
 $ ansible-playbook -i hosts ./playbook_kind_stop.yml
 ```
   
-# Activate vscode-dev-containers on ansible minikube playbook
+# Start vscode-dev-containers on Minikube
 - Launch one of the previous minikube profile
-- go to the project dir
+- Go to the project dir
 ```
 cd $HOME/minikube
 ```
-- set minikube docker env locally
+- list minikube profiles
 ```
 $ minikube profile list
+```
+- Set minikube's docker env (replace <profile_name>)
+```
 $ eval $(minikube -p <profile_name> docker-env)
 ```
-- launch vscode from the dir $HOME/minikube which is mounted
+- launch VsCode from the project dir $HOME/minikube (this dir was mounted in minikube with ansible playbook)
 ```
 $ code .
 ```
