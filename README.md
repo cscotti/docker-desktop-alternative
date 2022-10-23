@@ -30,7 +30,7 @@ Note that you can change the file `./app/src/localy/hello-world.py` and it will 
 # start
 $ ansible-playbook -i hosts ./playbook_docker_start.yml
 
-#s et minikube docker env locally
+# set minikube docker env locally
 $ eval $(minikube -p docker-only docker-env)
 
 # connect to the container
@@ -96,7 +96,25 @@ $ kubectl get pod
 $ ansible-playbook -i hosts ./playbook_kind_stop.yml
 ```
   
-# WIP - Activate vscode-dev-containers on ansible minikube playbook
+# Activate vscode-dev-containers on ansible minikube playbook
+- Launch one of the previous minikube profile
+- cd $HOME/minikube
+- set minikube docker env locally
+$ minikube profile list
+$ eval $(minikube -p <profile_name> docker-env)
+- launch vscode from the dir $HOME/minikube which is mounted
+$ code .
+- type the shortcut SHIFT+CMD+P
+- Type : Dev Containers
+- Select : "Try a Dev Containers sample"
+- Choose Python
+(take some minute to build image)
+- Type F5 (Tab Execute / Start debug)
+- Open browser and open localhost:9000
+
+    
+    
+Resources:
 <https://benmatselby.dev/post/vscode-dev-containers-minikube/><br>
   
 <https://code.visualstudio.com/docs/remote/containers-tutorial>
