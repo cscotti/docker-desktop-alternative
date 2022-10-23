@@ -100,10 +100,14 @@ $ ansible-playbook -i hosts ./playbook_kind_stop.yml
 - Launch one of the previous minikube profile
 - cd $HOME/minikube
 - set minikube docker env locally
+```
 $ minikube profile list
 $ eval $(minikube -p <profile_name> docker-env)
+```
 - launch vscode from the dir $HOME/minikube which is mounted
+```
 $ code .
+```
 - type the shortcut SHIFT+CMD+P
 - Type : Dev Containers
 - Select : "Try a Dev Containers sample"
