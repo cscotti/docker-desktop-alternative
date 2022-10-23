@@ -1,5 +1,5 @@
 # Purpose - Goodbye Docker Desktop, Hello Minikube!
-This post is for developers who want to find an alternative to docker-desktop due to its license cost
+This post is for devops developers who want to find an alternative to docker-desktop due to its license cost
 
 
 # Requirements on Macos
