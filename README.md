@@ -8,7 +8,7 @@ This post is for devops developers who want to find an alternative to docker-des
   * [Requirements on Macos](#requirements-on-macos)
   * [Install project](#install-project)
 - [Deploy Minikube instance with Ansible](#deploy-minikube-instance-with-ansible)
-  * [minikube (docker only)](#minikube-docker-only)
+  * [minikube (docker only + image build sample)](#minikube-docker-only)
   * [minikube (docker + kubernetes)](#minikube-docker--kubernetes)
   * [minikube (docker + kind (kubernetes in docker))](#minikube-docker--kind-kubernetes-in-docker)
 - [Start vscode-dev-containers on Minikube](#start-vscode-dev-containers-on-minikube)
@@ -35,7 +35,7 @@ $ cd $HOME/minikube
 
 # Deploy Minikube instance with Ansible 
 
-## minikube (docker only)
+## minikube (docker only + image build sample))
 Without docker-desktop, is it hard to use docker. You can work with minikube's docker environment to run and build image.
 Here an example which :
 - Test if minikube is up & run it if needed with two mount point (`/data` & `/src/app`)
