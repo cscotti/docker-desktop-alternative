@@ -11,8 +11,8 @@ brew install kubernetes-cli kube-ps1 kubectx
 
 ## Install project
 ```
-git clone https://github.com/cscotti/docker-desktop-alternative.git $HOME/minikube
-cd $HOME/minikube
+$ git clone https://github.com/cscotti/docker-desktop-alternative.git $HOME/minikube
+$ cd $HOME/minikube
 ```
 
 # Deploy Minikube instance with Ansible 
@@ -28,20 +28,41 @@ Note that you can change the file `./app/src/localy/hello-world.py` and it will 
 
 ```
 # start
-ansible-playbook -i hosts ./playbook_docker_start.yml
+$ ansible-playbook -i hosts ./playbook_docker_start.yml
 
 #s et minikube docker env locally
-eval $(minikube -p docker-only docker-env)
+$ eval $(minikube -p docker-only docker-env)
 
 # connect to the container
-docker exec -it python-hello-world /bin/sh
+$ docker exec -it python-hello-world /bin/sh
 
 # run the command in the container & exit
-python3 hello-world.py
-exit
+$ python3 hello-world.py
+
+Hello World
+{
+    "Actors": [
+        {
+            "name": "Tom Cruise",
+            "age": 56,
+            "Born At": "Syracuse, NY",
+            "Birthdate": "July 3, 1962",
+            "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
+        },
+        {
+            "name": "Robert Downey Jr.",
+            "age": 53,
+            "Born At": "New York City, NY",
+            "Birthdate": "April 4, 1965",
+            "photo": "https://jsonformatter.org/img/Robert-Downey-Jr.jpg"
+        }
+    ]
+}
+
+$ exit
 
 # stop minikube
-ansible-playbook -i hosts ./playbook_docker_stop.yml
+$ ansible-playbook -i hosts ./playbook_docker_stop.yml
 ```
 
 
@@ -49,11 +70,11 @@ ansible-playbook -i hosts ./playbook_docker_stop.yml
 Run minikube as default on hyperkit
 ```
 #start
-ansible-playbook -i hosts ./playbook_minikube_start.yml
-kubectl cluster-info --context minikube
+$ ansible-playbook -i hosts ./playbook_minikube_start.yml
+$ kubectl cluster-info --context minikube
 
 #stop
-ansible-playbook -i hosts ./playbook_minikube_stop.yml
+$ ansible-playbook -i hosts ./playbook_minikube_stop.yml
 ```
 
 
@@ -65,13 +86,13 @@ The <kind-mkind> cluster can be reach with kubectl (with a ssh tunnel)
 
 ```
 # start
-ansible-playbook -i hosts ./playbook_kind_start.yml
-kubectl cluster-info --context kind-mkind
-kubectl get nodes
-kubectl get pod
+$ ansible-playbook -i hosts ./playbook_kind_start.yml
+$ kubectl cluster-info --context kind-mkind
+$ kubectl get nodes
+$ kubectl get pod
 
 # stop
-ansible-playbook -i hosts ./playbook_kind_stop.yml
+$ ansible-playbook -i hosts ./playbook_kind_stop.yml
 ```
   
 # WIP - Activate vscode-dev-containers on ansible minikube playbook
