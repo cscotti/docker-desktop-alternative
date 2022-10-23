@@ -117,6 +117,8 @@ $ code .
 - type the shortcut SHIFT+CMD+P
 - Type : Dev Containers
 - Select : "Try a Dev Containers sample"
+<img width="426" alt="image" src="https://user-images.githubusercontent.com/28137024/197423194-30700ed8-d572-4995-a208-6973b908b6aa.png">
+
 - Choose Python
 (take some minute to build image)
 - Type F5 (Tab Execute / Start debug)
