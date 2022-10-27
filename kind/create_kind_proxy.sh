@@ -4,8 +4,10 @@
 MINIKUBE_PROFILE=$1
 #MINIKUBE_PROFILE=mkind
 
-MINIKUBE_IP=$(minikube ip -p $MINIKUBE_PROFILE)
-KIND_K8S_PORT=$(cat $HOME/.kube/config |sed -n 's/\(.*\)\(127.0.0.1:\)\(.*\)/\3/p' )
+MINIKUBE_IP=$(minikube ip -p "$MINIKUBE_PROFILE")
+CLUSTER_SERVER=$(kubectl config view -o jsonpath='{.clusters[?(@.name == "'$(kubectl config current-context)'")].cluster.server}')
+#KIND_K8S_PORT=$(cat $HOME/.kube/config |sed -n 's/\(.*\)\(127.0.0.1:\)\(.*\)/\3/p' )
+KIND_K8S_PORT=$(echo "$CLUSTER_SERVER"|sed -n 's/\(.*\)\(127.0.0.1:\)\(.*\)/\3/p' )
 echo "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -N docker\@$MINIKUBE_IP -p 22 -i $HOME/.minikube/machines/$MINIKUBE_PROFILE/id_rsa -L $KIND_K8S_PORT:127.0.0.1:$KIND_K8S_PORT" > $HOME/.kube/kind_tunnel.sh
 chmod +x $HOME/.kube/kind_tunnel.sh
 
