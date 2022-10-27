@@ -107,9 +107,6 @@
       shell: |
         eval $(minikube -p {{minikube_profile}} docker-env)
         sh ./kind/create_k8s_sample.sh
-        echo "curl $(minikube ip -p $MINIKUBE_PROFILE):8080"
-        echo "curl mkind.local:8080  (sudo echo \"mkind.local \$(minikube ip -p \$MINIKUBE_PROFILE)\" >> /etc/hosts)"
-        #curl $(minikube ip -p $MINIKUBE_PROFILE):8080
       register: sample
       when: kind_pods_exist.stdout == "False"
 
@@ -143,5 +140,6 @@
           # kubectl expose deployment hello-minikube --type=NodePort --port=30017
           curl $(minikube ip -p {{minikube_profile}} ):8080
           --------------------------
+          echo "curl mkind.local:8080  (with $> sudo echo \"mkind.local \$(minikube ip -p \$MINIKUBE_PROFILE)\" >> /etc/hosts)"
       debug:
         msg: "{{ msg.split('\n') }}"
