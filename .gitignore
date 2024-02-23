@@ -2,3 +2,11 @@
 **/archive/*
 **/__pycache__/*
 **/service-account/*
+**/data/*
+*.log
+*.log.1
+**/venv/*
+**/sfcc-schemas/*
+**/output/*
+**/__MACOSX/*
+**/tmp/*
