@@ -26,8 +26,15 @@
 
 # ignore all  files in all folders, including build root
 **/__pycache__
+**/__MACOSX
 **/tmp
-**/archive
+**/node_modules
+**/test
+**/venv
+/docker
+/ansible_playbook
+/scripts/*
+/data/*
 
 # ignore all markdown files (md) beside all README*.md other than README-secret.md
 *.md
